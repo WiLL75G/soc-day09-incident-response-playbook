@@ -6,9 +6,9 @@
 
 - **Incident Type:** Incident Response Playbook Development & Standardization
 - **Severity:** High (Production-Grade SOC Documentation)
-- **Detection Method:** N/A — Proactive IR Capability Build
+- **Detection Method:** N/A Proactive IR Capability Build
 - **Tools Used:** NIST SP 800-61 IR Framework, MITRE ATT&CK Framework v14, Markdown Documentation
-- **Status:** Complete — 3 Playbooks Operational, 9 ATT&CK Techniques Mapped
+- **Status:** Complete 3 Playbooks Operational, 9 ATT&CK Techniques Mapped
 
 ---
 
@@ -96,7 +96,7 @@ The deliverables provide a standardized, repeatable response methodology that en
 
 ### SOC Observations:
 
-- Phishing response requires email-system mass-action capabilities (e.g. Microsoft 365 message trace + soft delete)
+- Phishing response requires email-system mass action capabilities (e.g. Microsoft 365 message trace + soft delete)
 - Click telemetry determines escalation scope
 - Credential-harvesting phishing demands immediate password resets not just email purge
 
@@ -113,7 +113,7 @@ The deliverables provide a standardized, repeatable response methodology that en
 **7-Step Response:**
 1. **Detection** — AV or EDR alert on suspicious file, hash, or behaviour
 2. **Triage** — Validate alert, capture file hash, identify affected endpoint
-3. **Containment** — Network-isolate the endpoint immediately
+3. **Containment** — Network isolate the endpoint immediately
 4. **Investigation** — Submit hash to VirusTotal / Hybrid Analysis, identify persistence mechanisms, map lateral movement
 5. **Eradication** — Remove malware, clear persistence artifacts (CRON, registry, services)
 6. **Recovery** — Restore endpoint from clean backup, validate integrity before reconnecting
@@ -121,7 +121,7 @@ The deliverables provide a standardized, repeatable response methodology that en
 
 ### SOC Observations:
 
-- Evidence preservation must precede remediation — hash, memory capture, and disk image first
+- Evidence preservation must precede remediation hash, memory capture, and disk image first
 - Network isolation is non-negotiable for confirmed malware
 - Restore-from-backup is the only fully trusted recovery path
 
@@ -132,13 +132,13 @@ The deliverables provide a standardized, repeatable response methodology that en
 ![MITRE Mapping](./screenshots/mitre_mapping.png)
 
 - Mapped each playbook to corresponding ATT&CK tactics and techniques
-- Built cross-reference table linking incidents to adversary behaviours
+- Built cross reference table linking incidents to adversary behaviours
 - Validated coverage against MITRE ATT&CK Enterprise Matrix v14
 
 ### SOC Observations:
 
 - ATT&CK mapping converts response procedures into threat-informed defense
-- Each technique maps to specific detection rules — gaps surface immediately
+- Each technique maps to specific detection rules gaps surface immediately
 - Mapping enables continuous improvement as adversary TTPs evolve
 
 ---
@@ -155,7 +155,7 @@ The deliverables provide a standardized, repeatable response methodology that en
 
 - Playbooks must be reviewed against actual incident scenarios before deployment
 - Each phase must produce documentable artifacts for audit and handoff
-- Playbooks are living documents — quarterly review is industry practice
+- Playbooks are living documents quarterly review is industry practice
 
 ---
 
@@ -228,7 +228,7 @@ The deliverables provide a standardized, repeatable response methodology that en
 
 ## Analyst Insight
 
-Incident Response playbooks are the operational backbone of every professional SOC. Without them, analysts make inconsistent decisions under pressure missing containment steps, skipping evidence preservation, or recovering too early and reintroducing compromise. A well-written playbook ensures that every analyst, regardless of experience level, follows the same proven methodology. MITRE ATT&CK mapping adds a second layer of value by linking each response action to real-world adversary tactics, making detection gaps visible and improvement priorities clear.
+Incident Response playbooks are the operational backbone of every professional SOC. Without them, analysts make inconsistent decisions under pressure missing containment steps, skipping evidence preservation, or recovering too early and reintroducing compromise. A well written playbook ensures that every analyst, regardless of experience level, follows the same proven methodology. MITRE ATT&CK mapping adds a second layer of value by linking each response action to real-world adversary tactics, making detection gaps visible and improvement priorities clear.
 
 ---
 
@@ -237,10 +237,10 @@ Incident Response playbooks are the operational backbone of every professional S
 This investigation demonstrates the ability to:
 
 - Build production-grade Incident Response playbooks from scratch
-- Apply the NIST SP 800-61 7-step IR framework to real-world incident types
+- Apply the NIST SP 800-61 7-step IR framework to real world incident types
 - Map response procedures to the MITRE ATT&CK framework
 - Distinguish between containment and eradication phases with operational clarity
-- Document incident-specific IOCs across host, network, and identity layers
+- Document incident specific IOCs across host, network, and identity layers
 - Recognize evidence preservation as a non-negotiable IR principle
 - Standardize SOC decision-making under pressure through structured procedures
 - Translate threat intelligence into actionable response procedures
