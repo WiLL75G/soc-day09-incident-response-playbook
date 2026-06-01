@@ -1,5 +1,4 @@
-# Day 09 – SOC Tier 1 Incident Report: Incident Response Playbook Development
-
+# Incident Response Playbook: Detection to Containment Workflow (SOC Tier 1)
 ---
 
 ## Incident Summary
