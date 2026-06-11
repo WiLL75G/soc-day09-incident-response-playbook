@@ -51,22 +51,22 @@ The deliverables provide a standardized, repeatable response methodology that en
 
 ---
 
-### 2. Playbook 1 — Brute Force Attack
+### 2. Playbook 1 Brute Force Attack
 
-![Playbook 1 - Brute Force](./screenshots/playbook1_brute_force.png)
+![Playbook 1 Brute Force](./screenshots/playbook1_brute_force.png)
 
 - **Severity:** High
 - **MITRE Technique:** T1110 Brute Force
 - **Trigger Condition:** 5+ failed logins within 60 seconds from a single source
 
 **7-Step Response:**
-1. **Detection** — SIEM alert on failed authentication threshold
-2. **Triage** — Validate source IP, target account scope, time window
-3. **Containment** — Block source IP at firewall, disable targeted account
-4. **Investigation** — Review authentication logs for successful logins from same source
-5. **Eradication** — Reset compromised credentials, revoke active sessions
-6. **Recovery** — Re-enable account with MFA enforced
-7. **Lessons Learned** — Tune lockout thresholds, document attacker IP for threat intel
+1. **Detection** SIEM alert on failed authentication threshold
+2. **Triage** Validate source IP, target account scope, time window
+3. **Containment** Block source IP at firewall, disable targeted account
+4. **Investigation** Review authentication logs for successful logins from same source
+5. **Eradication** Reset compromised credentials, revoke active sessions
+6. **Recovery** Re-enable account with MFA enforced
+7. **Lessons Learned** Tune lockout thresholds, document attacker IP for threat intel
 
 ### SOC Observations:
 
@@ -76,22 +76,22 @@ The deliverables provide a standardized, repeatable response methodology that en
 
 ---
 
-### 3. Playbook 2 — Phishing Email
+### 3. Playbook 2 Phishing Email
 
-![Playbook 2 - Phishing](./screenshots/playbook2_phishing.png)
+![Playbook 2 Phishing](./screenshots/playbook2_phishing.png)
 
 - **Severity:** High
 - **MITRE Technique:** T1566 Phishing
 - **Trigger Condition:** User report or email gateway alert
 
 **7-Step Response:**
-1. **Detection** — User-reported email or gateway-flagged message
-2. **Triage** — Analyze sender, headers, links, and attachments
-3. **Containment** — Pull email from all mailboxes, block sender domain at gateway
-4. **Investigation** — Identify recipients, click rates, credential submission events
-5. **Eradication** — Reset credentials for users who clicked, isolate affected endpoints
-6. **Recovery** — Restore endpoint access after verification, enable MFA
-7. **Lessons Learned** — User awareness training, gateway rule tuning, IOC sharing
+1. **Detection** User-reported email or gateway-flagged message
+2. **Triage** Analyze sender, headers, links, and attachments
+3. **Containment** Pull email from all mailboxes, block sender domain at gateway
+4. **Investigation** Identify recipients, click rates, credential submission events
+5. **Eradication** Reset credentials for users who clicked, isolate affected endpoints
+6. **Recovery** Restore endpoint access after verification, enable MFA
+7. **Lessons Learned** User awareness training, gateway rule tuning, IOC sharing
 
 ### SOC Observations:
 
@@ -101,22 +101,22 @@ The deliverables provide a standardized, repeatable response methodology that en
 
 ---
 
-### 4. Playbook 3 — Malware Detection
+### 4. Playbook 3 Malware Detection
 
-![Playbook 3 - Malware](./screenshots/playbook3_malware.png)
+![Playbook 3 Malware](./screenshots/playbook3_malware.png)
 
 - **Severity:** Critical
 - **MITRE Technique:** T1204 User Execution
 - **Trigger Condition:** AV / EDR alert on suspicious file or process
 
 **7-Step Response:**
-1. **Detection** — AV or EDR alert on suspicious file, hash, or behaviour
-2. **Triage** — Validate alert, capture file hash, identify affected endpoint
-3. **Containment** — Network isolate the endpoint immediately
-4. **Investigation** — Submit hash to VirusTotal / Hybrid Analysis, identify persistence mechanisms, map lateral movement
-5. **Eradication** — Remove malware, clear persistence artifacts (CRON, registry, services)
-6. **Recovery** — Restore endpoint from clean backup, validate integrity before reconnecting
-7. **Lessons Learned** — Update detection rules, share IOCs, refine endpoint hardening
+1. **Detection** AV or EDR alert on suspicious file, hash, or behaviour
+2. **Triage** Validate alert, capture file hash, identify affected endpoint
+3. **Containment** Network isolate the endpoint immediately
+4. **Investigation** Submit hash to VirusTotal / Hybrid Analysis, identify persistence mechanisms, map lateral movement
+5. **Eradication** Remove malware, clear persistence artifacts (CRON, registry, services)
+6. **Recovery** Restore endpoint from clean backup, validate integrity before reconnecting
+7. **Lessons Learned** Update detection rules, share IOCs, refine endpoint hardening
 
 ### SOC Observations:
 
@@ -188,7 +188,7 @@ The deliverables provide a standardized, repeatable response methodology that en
 
 ---
 
-## IR Methodology — 7 Step Framework
+## IR Methodology 7 Step Framework
 
 | Step | Phase             | Purpose                                              |
 |------|-------------------|------------------------------------------------------|
