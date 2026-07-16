@@ -1,250 +1,177 @@
-# Incident Response Playbook: Detection to Containment Workflow (SOC Tier 1)
----
+# Incident Response Playbooks, Detection to Containment
 
-## Incident Summary
+Three IR playbooks for the incidents a Tier 1 analyst actually works: brute force, phishing, and malware. Built on the NIST SP 800-61 lifecycle, mapped to MITRE ATT&CK, written to be followed at 3am.
 
-- **Incident Type:** Incident Response Playbook Development & Standardization
-- **Severity:** High (Production-Grade SOC Documentation)
-- **Detection Method:** N/A Proactive IR Capability Build
-- **Tools Used:** NIST SP 800-61 IR Framework, MITRE ATT&CK Framework v14, Markdown Documentation
-- **Status:** Complete 3 Playbooks Operational, 9 ATT&CK Techniques Mapped
+## At a Glance
 
----
+| Field | Detail |
+| --- | --- |
+| Deliverable | 3 incident response playbooks |
+| Framework | NIST SP 800-61 Incident Handling Guide |
+| Threat Model | MITRE ATT&CK Enterprise Matrix v14 |
+| Coverage | Brute force, phishing, malware |
+| Techniques Mapped | 9 |
+| Type | Documentation build, not an investigation |
 
-## Executive Summary
+## What This Is
 
-This investigation delivers three production-grade Incident Response playbooks covering the most common incident types encountered by a SOC Tier 1 analyst: brute-force attacks, phishing emails, and malware detections. Each playbook is built on the NIST SP 800-61 7-step IR framework and fully mapped to MITRE ATT&CK techniques.
+This is not an incident. It is the thing you write before the incident, so that when it happens nobody has to think from scratch.
 
-The deliverables provide a standardized, repeatable response methodology that ensures consistent analyst decision-making under pressure, supports evidence preservation, and aligns response actions with adversary tactics for ongoing detection improvement.
+Playbooks exist because analysts under pressure skip steps. They contain first and preserve evidence never. They reset the password and leave the session alive. They restore the endpoint before they know how it was compromised, and hand the attacker the host a second time.
 
----
+A playbook removes the improvisation from the worst hour of someone's week.
 
-## Affected System
+Scope stated plainly: these are procedures authored against the NIST framework and validated on paper, not procedures battle tested against live incidents in a production SOC. What they demonstrate is framework fluency and response sequencing.
 
-- **Scope:** SOC Tier 1 Operational Procedures
-- **Framework Basis:** NIST SP 800-61 Incident Handling Guide
-- **Threat Intelligence Source:** MITRE ATT&CK Enterprise Matrix v14
-- **Coverage:**
-  - 3 incident categories (Brute Force, Phishing, Malware)
-  - 9 MITRE ATT&CK techniques
-  - Full 7-step IR lifecycle per playbook
-
----
-
-## Investigation Methodology
-
----
-
-### 1. IR Framework Review
+## The Framework
 
 ![IR Framework](./screenshots/ir_framework.png)
 
-- Reviewed NIST SP 800-61 Incident Handling Guide
-- Established the 7-step IR lifecycle as the playbook foundation
-- Aligned terminology with industry-standard SOC vocabulary
+NIST SP 800-61 was used as the structural basis, with the lifecycle broken into seven operational steps and the terminology aligned to standard SOC vocabulary so a playbook reads the same way a handoff does.
 
-### SOC Observations:
+| Step | Phase | Purpose |
+| --- | --- | --- |
+| 1 | Detection | Identify the incident via alert or user report |
+| 2 | Triage | Assess severity and scope, validate the alert is real |
+| 3 | Containment | Stop the spread, limit blast radius |
+| 4 | Investigation | Understand what the attacker did and capture IOCs |
+| 5 | Eradication | Remove the threat and every persistence artefact |
+| 6 | Recovery | Restore operations with validation |
+| 7 | Lessons Learned | Improve detection, share IOCs |
 
-- Standardized frameworks ensure consistent analyst response
-- NIST SP 800-61 is the recognized industry baseline for IR
-- Framework alignment supports audit, compliance, and handoff workflows
+The order is the whole point. Containment before investigation limits damage. Investigation before eradication means you remove all of it rather than the part you saw. Recovery before either means you do the incident twice.
 
----
-
-### 2. Playbook 1 Brute Force Attack
+## Playbook 1, Brute Force
 
 ![Playbook 1 Brute Force](./screenshots/playbook1_brute_force.png)
 
-- **Severity:** High
-- **MITRE Technique:** T1110 Brute Force
-- **Trigger Condition:** 5+ failed logins within 60 seconds from a single source
+Severity High. Technique T1110. Triggers on 5 or more failed logins within 60 seconds from a single source.
 
-**7-Step Response:**
-1. **Detection** SIEM alert on failed authentication threshold
-2. **Triage** Validate source IP, target account scope, time window
-3. **Containment** Block source IP at firewall, disable targeted account
-4. **Investigation** Review authentication logs for successful logins from same source
-5. **Eradication** Reset compromised credentials, revoke active sessions
-6. **Recovery** Re-enable account with MFA enforced
-7. **Lessons Learned** Tune lockout thresholds, document attacker IP for threat intel
+Detection. SIEM alert on the failed authentication threshold.
 
-### SOC Observations:
+Triage. Validate the source IP, the account scope, and the time window.
 
-- Brute-force playbooks must distinguish between failed and successful follow-up logins
-- Session revocation is critical credential reset alone does not invalidate active sessions
-- Source IP intelligence enriches future detection rules
+Containment. Block the source at the firewall, disable the targeted account.
 
----
+Investigation. Check the same log source for successful logins from that source. This is the step that decides whether this is noise or a breach.
 
-### 3. Playbook 2 Phishing Email
+Eradication. Reset credentials and revoke active sessions.
+
+Recovery. Re enable the account with MFA enforced.
+
+Lessons Learned. Tune the lockout threshold, feed the source IP to threat intel.
+
+The step that gets skipped: session revocation. A password reset does not kill a session that is already open. The attacker keeps working while the analyst files the ticket as resolved.
+
+## Playbook 2, Phishing
 
 ![Playbook 2 Phishing](./screenshots/playbook2_phishing.png)
 
-- **Severity:** High
-- **MITRE Technique:** T1566 Phishing
-- **Trigger Condition:** User report or email gateway alert
+Severity High. Technique T1566. Triggers on a user report or an email gateway alert.
 
-**7-Step Response:**
-1. **Detection** User-reported email or gateway-flagged message
-2. **Triage** Analyze sender, headers, links, and attachments
-3. **Containment** Pull email from all mailboxes, block sender domain at gateway
-4. **Investigation** Identify recipients, click rates, credential submission events
-5. **Eradication** Reset credentials for users who clicked, isolate affected endpoints
-6. **Recovery** Restore endpoint access after verification, enable MFA
-7. **Lessons Learned** User awareness training, gateway rule tuning, IOC sharing
+Detection. Reported message or gateway flag.
 
-### SOC Observations:
+Triage. Analyse sender, headers, links, attachments.
 
-- Phishing response requires email-system mass action capabilities (e.g. Microsoft 365 message trace + soft delete)
-- Click telemetry determines escalation scope
-- Credential-harvesting phishing demands immediate password resets not just email purge
+Containment. Purge the email from all mailboxes, block the sender domain at the gateway.
 
----
+Investigation. Identify every recipient, who clicked, and whether credentials were submitted.
 
-### 4. Playbook 3 Malware Detection
+Eradication. Reset credentials for anyone who clicked, isolate affected endpoints.
+
+Recovery. Restore access after verification, enforce MFA.
+
+Lessons Learned. Awareness notice, gateway rule tuning, IOC sharing.
+
+The step that gets skipped: click telemetry. Purging the email feels like resolution, but it only stops the next victim. It does nothing for the person who already typed their password into the landing page, and until you know who clicked, you do not know the size of the incident.
+
+## Playbook 3, Malware
 
 ![Playbook 3 Malware](./screenshots/playbook3_malware.png)
 
-- **Severity:** Critical
-- **MITRE Technique:** T1204 User Execution
-- **Trigger Condition:** AV / EDR alert on suspicious file or process
+Severity Critical. Technique T1204. Triggers on an antivirus or EDR alert.
 
-**7-Step Response:**
-1. **Detection** AV or EDR alert on suspicious file, hash, or behaviour
-2. **Triage** Validate alert, capture file hash, identify affected endpoint
-3. **Containment** Network isolate the endpoint immediately
-4. **Investigation** Submit hash to VirusTotal / Hybrid Analysis, identify persistence mechanisms, map lateral movement
-5. **Eradication** Remove malware, clear persistence artifacts (CRON, registry, services)
-6. **Recovery** Restore endpoint from clean backup, validate integrity before reconnecting
-7. **Lessons Learned** Update detection rules, share IOCs, refine endpoint hardening
+Detection. Alert on suspicious file, hash, or behaviour.
 
-### SOC Observations:
+Triage. Validate the alert, capture the hash, identify the endpoint.
 
-- Evidence preservation must precede remediation hash, memory capture, and disk image first
-- Network isolation is non-negotiable for confirmed malware
-- Restore-from-backup is the only fully trusted recovery path
+Containment. Network isolate the endpoint immediately.
 
----
+Investigation. Submit the hash to VirusTotal and Hybrid Analysis, identify persistence, map lateral movement.
 
-### 5. MITRE ATT&CK Mapping Construction
+Eradication. Remove the malware and clear every persistence artefact, cron, registry, services.
 
-![MITRE Mapping](./screenshots/mitre_mapping.png)
+Recovery. Restore from clean backup, validate integrity before reconnecting.
 
-- Mapped each playbook to corresponding ATT&CK tactics and techniques
-- Built cross reference table linking incidents to adversary behaviours
-- Validated coverage against MITRE ATT&CK Enterprise Matrix v14
+Lessons Learned. Update detection rules, share IOCs, harden the endpoint.
 
-### SOC Observations:
-
-- ATT&CK mapping converts response procedures into threat-informed defense
-- Each technique maps to specific detection rules gaps surface immediately
-- Mapping enables continuous improvement as adversary TTPs evolve
-
----
-
-### 6. Playbook Validation & Review
-
-![Final Playbooks](./screenshots/final_playbooks.png)
-
-- Reviewed all three playbooks against NIST 7-step framework completeness
-- Validated MITRE ATT&CK coverage per incident type
-- Confirmed IOC capture, evidence preservation, and escalation paths
-
-### SOC Observations:
-
-- Playbooks must be reviewed against actual incident scenarios before deployment
-- Each phase must produce documentable artifacts for audit and handoff
-- Playbooks are living documents quarterly review is industry practice
-
----
-
-## Indicators of Compromise (IOCs) by Playbook
-
-| Playbook        | IOC Category              | Examples                                                |
-|-----------------|---------------------------|---------------------------------------------------------|
-| Brute Force     | Network IOCs              | Source IP, geolocation, ASN                             |
-| Brute Force     | Authentication IOCs       | Failed login event IDs, target usernames, time windows  |
-| Phishing        | Email IOCs                | Sender domain, subject line, message hash, URLs         |
-| Phishing        | Behavioural IOCs          | Click events, credential submission, attachment hashes  |
-| Malware         | File IOCs                 | MD5/SHA256 hashes, filename, file path                  |
-| Malware         | Network IOCs              | C2 domains, IPs, beaconing intervals                    |
-| Malware         | Host IOCs                 | Persistence registry keys, scheduled tasks, services    |
-
----
+The step that gets skipped: evidence preservation before remediation. Hash, memory, disk image, in that order, before anything is deleted. The instinct is to clean the machine. Clean it first and the investigation is over, because the evidence went with it.
 
 ## MITRE ATT&CK Mapping
 
-| Incident      | Tactic                | Technique                          | ID     |
-|---------------|-----------------------|------------------------------------|--------|
-| Brute Force   | Credential Access     | Brute Force                        | T1110  |
-| Brute Force   | Defense Evasion       | Valid Accounts                     | T1078  |
-| Phishing      | Initial Access        | Phishing                           | T1566  |
-| Phishing      | Execution             | User Execution                     | T1204  |
-| Phishing      | Credential Access     | Steal Web Session Cookie           | T1539  |
-| Malware       | Execution             | User Execution                     | T1204  |
-| Malware       | Persistence           | Boot or Logon Autostart Execution  | T1547  |
-| Malware       | Command & Control     | Application Layer Protocol         | T1071  |
-| Malware       | Exfiltration          | Exfiltration Over C2 Channel       | T1041  |
+![MITRE Mapping](./screenshots/mitre_mapping.png)
 
----
+| Incident | Tactic | Technique | ID |
+| --- | --- | --- | --- |
+| Brute force | Credential Access | Brute force | T1110 |
+| Brute force | Defence Evasion | Valid accounts | T1078 |
+| Phishing | Initial Access | Phishing | T1566 |
+| Phishing | Execution | User execution | T1204 |
+| Phishing | Credential Access | Steal web session cookie | T1539 |
+| Malware | Execution | User execution | T1204 |
+| Malware | Persistence | Boot or logon autostart execution | T1547 |
+| Malware | Command and Control | Application layer protocol | T1071 |
+| Malware | Exfiltration | Exfiltration over C2 channel | T1041 |
 
-## IR Methodology 7 Step Framework
+Mapping a playbook to ATT&CK is not decoration. It turns a response procedure into a coverage question: if this technique has a playbook but no detection rule behind it, the gap is now visible on paper instead of discovered during an incident.
 
-| Step | Phase             | Purpose                                              |
-|------|-------------------|------------------------------------------------------|
-| 1    | Detection         | Identify the incident via alerts or user reports     |
-| 2    | Triage            | Assess severity, scope, and validate the alert       |
-| 3    | Containment       | Stop the spread and limit blast radius immediately   |
-| 4    | Investigation     | Understand attacker actions, scope, and IOCs         |
-| 5    | Eradication       | Remove the threat and all persistence artifacts      |
-| 6    | Recovery          | Restore normal operations safely with validation     |
-| 7    | Lessons Learned   | Document findings, improve detection, share IOCs     |
+## Playbook Validation
 
----
+![Final Playbooks](./screenshots/final_playbooks.png)
 
-## SOC Analyst Findings
+All three were reviewed against the seven step framework for completeness, ATT&CK coverage checked per incident type, and IOC capture, evidence preservation, and escalation paths confirmed present in each.
 
-- Three production-grade IR playbooks delivered covering the most common SOC incidents
-- All playbooks align with NIST SP 800-61 7-step framework
-- Nine MITRE ATT&CK techniques mapped across the three incident types
-- Evidence preservation and containment sequencing validated for each playbook
-- Playbook structure supports analyst handoff, audit, and continuous improvement
-- Critical actions (network isolation, session revocation, IOC capture) standardized across the suite
+Playbooks are living documents. Quarterly review against current threat intelligence is standard practice, and a playbook that has not been reviewed in a year is a liability that looks like a control.
 
----
+## IOC Categories by Playbook
 
-## SOC Analyst Response
+| Playbook | Category | What to Capture |
+| --- | --- | --- |
+| Brute force | Network | Source IP, geolocation, ASN |
+| Brute force | Authentication | Failed logon event IDs, target usernames, time window |
+| Phishing | Email | Sender domain, subject, message hash, URLs |
+| Phishing | Behavioural | Click events, credential submission, attachment hashes |
+| Malware | File | MD5 and SHA256, filename, path |
+| Malware | Network | C2 domains, IPs, beaconing intervals |
+| Malware | Host | Registry persistence keys, scheduled tasks, services |
 
-- Deploy playbooks as the standard SOC Tier 1 response reference
-- Train analysts on the 7-step IR framework using these playbooks as reference cases
-- Integrate playbook trigger conditions into SIEM alert routing
-- Schedule quarterly playbook reviews against new threat intelligence
-- Capture IOCs from each invoked playbook into a central threat intel repository
-- Use ATT&CK mappings to identify detection gaps and prioritize tuning
-- Run tabletop exercises against each playbook to validate analyst execution
+Every phase has to produce an artefact. A step with nothing to hand over did not happen.
 
----
+## Recommended Deployment
 
-## Analyst Insight
+Wire the trigger conditions into SIEM alert routing so the playbook opens with the alert.
 
-Incident Response playbooks are the operational backbone of every professional SOC. Without them, analysts make inconsistent decisions under pressure missing containment steps, skipping evidence preservation, or recovering too early and reintroducing compromise. A well written playbook ensures that every analyst, regardless of experience level, follows the same proven methodology. MITRE ATT&CK mapping adds a second layer of value by linking each response action to real-world adversary tactics, making detection gaps visible and improvement priorities clear.
+Run tabletop exercises against each one, because a playbook nobody has walked through is untested.
 
----
+Capture IOCs from every invocation into a central threat intel repository.
 
-## Learning Outcome
+Use the ATT&CK mapping to find detection gaps and prioritise tuning against them.
 
-This investigation demonstrates the ability to:
+Review quarterly against new threat intelligence.
 
-- Build production-grade Incident Response playbooks from scratch
-- Apply the NIST SP 800-61 7-step IR framework to real world incident types
-- Map response procedures to the MITRE ATT&CK framework
-- Distinguish between containment and eradication phases with operational clarity
-- Document incident specific IOCs across host, network, and identity layers
-- Recognize evidence preservation as a non-negotiable IR principle
-- Standardize SOC decision-making under pressure through structured procedures
-- Translate threat intelligence into actionable response procedures
+## What This Lab Demonstrates
 
----
+Applying NIST SP 800-61 to concrete incident types rather than citing it.
+
+Sequencing containment, investigation, eradication, and recovery in the order that survives contact with a real incident.
+
+Knowing the step each playbook exists to stop an analyst skipping.
+
+Mapping response procedures to ATT&CK to surface detection gaps.
+
+Documenting IOCs across host, network, identity, and email layers.
+
+Treating evidence preservation as a precondition of remediation, not a nice to have.
 
 ## Repository Structure
 
@@ -266,6 +193,5 @@ incident-response-playbook-lab/
 
 ---
 
-## Conclusion
-
-This investigation delivers a professional IR playbook suite that demonstrates analytical depth, structured methodology, and MITRE ATT&CK fluency three competencies every SOC hiring manager evaluates. The deliverable is not a tool exercise but a standardized response capability: proof of analytical thinking, framework alignment, and operational SOC readiness.
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-WilliamInCyber-blue?style=flat&logo=linkedin)](https://linkedin.com/in/WilliamInCyber)
+[![X](https://img.shields.io/badge/X-WilliamInCyber-black?style=flat&logo=x)](https://x.com/WilliamInCyber)
